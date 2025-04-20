@@ -18,7 +18,7 @@ npm install @pedrorreiro/lolzinho
 
 ## 💠 Inicialização
 
-Antes de usar qualquer método, você precisa **inicializar a biblioteca com a chave da Riot**.
+Antes de usar qualquer método, você precisa **inicializar a biblioteca com a [chave da Riot](https://developer.riotgames.com/)**.
 
 ```ts
 import { LolzinhoClient } from "@pedrorreiro/lolzinho";
