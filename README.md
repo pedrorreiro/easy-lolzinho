@@ -64,6 +64,25 @@ import { LolzinhoClient } from "@pedrorreiro/lolzinho";
 
 ---
 
+## 🧪 Testes
+
+O projeto utiliza Jest para testes unitários. Para executar os testes:
+
+```bash
+# Executar todos os testes
+npm test
+
+# Executar testes com watch mode
+npm run test:watch
+
+# Executar testes com relatório de cobertura
+npm run test:coverage
+```
+
+Para mais informações sobre os testes, consulte o arquivo [TESTING.md](TESTING.md).
+
+---
+
 ## 📦 Requisitos
 
 - Node.js >= 18

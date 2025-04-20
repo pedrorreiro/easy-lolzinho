@@ -11,5 +11,6 @@ export class LolzinhoError extends Error {
 
     super(message);
     this.message = message;
+    this.riotError = riotError;
   }
 }

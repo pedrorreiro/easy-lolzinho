@@ -1,23 +1,31 @@
 import * as dotenv from "dotenv";
-import { checkConfig, getConfig, LolzinhoApiParams, setConfig } from "./config";
+import {
+  checkConfig,
+  DEFAULT_PLATFORM_ROUTING,
+  DEFAULT_REGIONAL_ROUTING,
+  getConfig,
+  LolzinhoApiParams,
+  setConfig,
+} from "./config";
+import { RequireInit } from "./decorators/RequireInit";
 import { LolzinhoError } from "./errors/LolzinhoError";
-import { PuuidService } from "./internal/Puuid/PuuidService";
-import { SummonerService } from "./resources/summoner/service";
+import { PuuidService } from "./internal/Puuid/puuid.service";
+import { FreeWeekService } from "./resources/freeWeek/freeweek.service";
+import { FreeWeekDto } from "./resources/freeWeek/types";
+import { SummonerService } from "./resources/summoner/summoner.service";
 import { SummonerDTO } from "./resources/summoner/types";
 dotenv.config();
-
-const DEFAULT_REGIONAL_ROUTING = "americas";
-const DEFAULT_PLATFORM_ROUTING = "br1";
 
 /**
  * Cliente principal da API do Lolzinho
  */
-class LolzinhoClientClass {
+export class LolzinhoClientClass {
   private riotApiKey: string;
   private regionalRouting: string;
   private platformRouting: string;
   private puuidService: PuuidService;
   private summonerService: SummonerService;
+  private freeWeekService: FreeWeekService;
 
   /**
    * Inicializa o client da API do Lolzinho
@@ -73,26 +81,32 @@ class LolzinhoClientClass {
       this.riotApiKey,
       this.platformRouting
     );
-  }
-
-  /**
-   * Verifica se o cliente foi inicializado
-   */
-  private requireInit(): void {
-    if (!checkConfig()) {
-      throw new LolzinhoError("Lolzinho client must be initialized before use");
-    }
+    this.freeWeekService = new FreeWeekService(
+      this.riotApiKey,
+      this.platformRouting
+    );
   }
 
   /**
    * Busca um invocador pelo nome
    * @param summonerName - Nome do invocador
    * @returns Dados do invocador
+   * @throws {LolzinhoError} - Se o cliente não estiver inicializado
    */
+  @RequireInit()
   async getSummonerByName(summonerName: string): Promise<SummonerDTO> {
-    this.requireInit();
     const puuid = await this.puuidService.getByName(summonerName);
     return await this.summonerService.getByPuuid(puuid);
+  }
+
+  /**
+   * Busca a rotina de campeões grátis da semana
+   * @returns Dados dos campeões grátis da semana
+   * @throws {LolzinhoError} - Se o cliente não estiver inicializado
+   */
+  @RequireInit()
+  async getFreeWeek(): Promise<FreeWeekDto> {
+    return await this.freeWeekService.getFreeWeekChampions();
   }
 }
 

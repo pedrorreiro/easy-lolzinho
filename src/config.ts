@@ -8,10 +8,13 @@ export type LolzinhoApiParams = {
 
 export let lolzinhoConfig: LolzinhoApiParams | null;
 
+export const DEFAULT_REGIONAL_ROUTING = "americas";
+export const DEFAULT_PLATFORM_ROUTING = "br1";
+
 export function setConfig(config: LolzinhoApiParams): void {
   lolzinhoConfig = {
-    regionalRouting: "americas",
-    platformRouting: "br1",
+    regionalRouting: DEFAULT_REGIONAL_ROUTING,
+    platformRouting: DEFAULT_PLATFORM_ROUTING,
     ...config,
   };
 }

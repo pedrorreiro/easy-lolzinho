@@ -6,7 +6,7 @@ echo "📦 Criando nova versão de desenvolvimento..."
 
 npm version prerelease --preid=dev --no-git-tag-version
 
-echo "\n🛠️ Buildando projeto..."
+echo "🛠️ Buildando projeto..."
 npm run build
 
 echo "🚀 Publicando no NPM..."

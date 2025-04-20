@@ -1,6 +1,6 @@
 {
   "name": "@pedrorreiro/lolzinho",
-  "version": "0.0.1-dev.9",
+  "version": "0.0.1-dev.10",
   "description": "A simple library to make lolzinho",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +8,10 @@
     "build": "tsc",
     "start": "npm run build && node dist/index.js",
     "dev": "ts-node-dev 'src/index.ts'",
+    "publish:dev": "./bin/publish-dev.sh",
     "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "lint": "eslint . --ext .ts",
     "prettier": "prettier --write .",
     "prepare": "npm run build"
@@ -26,7 +29,10 @@
     }
   },
   "devDependencies": {
+    "@types/jest": "^29.5.12",
     "@types/node": "^22.14.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3"
   },
