@@ -1,0 +1,40 @@
+import axios, { AxiosInstance } from "axios";
+import { LolzinhoError } from "../../errors/LolzinhoError";
+import { RiotApiError } from "../../errors/RiotApiError";
+
+export class PuuidService {
+  private readonly httpClient: AxiosInstance;
+
+  constructor(riotApiKey: string, regionalRouting: string) {
+    const client = axios.create({
+      baseURL: `https://${regionalRouting}.api.riotgames.com/riot`,
+      headers: {
+        "X-Riot-Token": riotApiKey,
+      },
+    });
+
+    this.httpClient = client;
+  }
+
+  async getByName(
+    summonerName: string,
+    tagLine: string = "BR1"
+  ): Promise<string> {
+    try {
+      const encodedSummonerName = encodeURIComponent(summonerName);
+      const encodedTagLine = encodeURIComponent(tagLine);
+
+      const response = await this.httpClient.get(
+        `account/v1/accounts/by-riot-id/${encodedSummonerName}/${encodedTagLine}`
+      );
+      return response.data.puuid;
+    } catch (error: any) {
+      const riotError = error as RiotApiError;
+
+      throw new LolzinhoError(
+        "Erro ao buscar a versão mais recente",
+        riotError
+      );
+    }
+  }
+}
