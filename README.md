@@ -60,6 +60,8 @@ import { LolzinhoClient } from "@pedrorreiro/lolzinho";
 
 - `getSummonerByName(summonerName: string): Promise<SummonerDTO>`
 
+- `getFreeWeek(): Promise<FreeWeekDto>`
+
 (mais métodos em breve...)
 
 ---
