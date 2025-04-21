@@ -42,13 +42,8 @@ jobs:
         with:
           node-version: "18"
           registry-url: "https://registry.npmjs.org/"
-
-      - name: 🔑 Autenticar no NPM
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-          echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
-          echo "always-auth=true" >> ~/.npmrc
-          cat ~/.npmrc
+          scope: "@pedrorreiro"
+          token: ${{ secrets.NPM_TOKEN }}
 
       - name: 🕵️ Verificar autenticação no NPM
         run: npm whoami
