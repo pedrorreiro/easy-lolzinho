@@ -1,6 +1,6 @@
 {
   "name": "@pedrorreiro/lolzinho",
-  "version": "0.0.1-dev.11",
+  "version": "0.0.1-dev.12",
   "description": "A simple library to make lolzinho",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,6 +27,10 @@
       "types": "./dist/index.d.ts",
       "require": "./dist/index.js"
     }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

@@ -46,8 +46,9 @@ jobs:
         run: npm install
 
       - name: 🔐 Autenticar no NPM
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> $HOME/.npmrc
+          cat $HOME/.npmrc
       - name: 🆕 Criar nova versão dev
         run: |
           echo "📦 Gerando versão prerelease com preid=dev..."
