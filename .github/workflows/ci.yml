@@ -48,5 +48,12 @@ jobs:
       - name: 🔐 Autenticar no NPM
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
+      - name: 🆕 Criar nova versão dev
+        run: |
+          echo "📦 Gerando versão prerelease com preid=dev..."
+          npm version prerelease --preid=dev --no-git-tag-version
+          echo "🔎 Nova versão:"
+          npm pkg get version
+
       - name: 🚀 Publicar versão dev
         run: npm run publish:dev
