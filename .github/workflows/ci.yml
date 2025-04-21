@@ -1,0 +1,52 @@
+name: Run Tests and Publish Dev
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: 🧪 Rodar Testes
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout do código
+        uses: actions/checkout@v3
+
+      - name: 🛠️ Setup do Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: 📦 Instalar dependências
+        run: npm install
+
+      - name: ✅ Rodar testes
+        run: npm test
+
+  publish-dev:
+    name: 🚀 Publicar versão dev no NPM
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout do código
+        uses: actions/checkout@v3
+
+      - name: 🛠️ Setup do Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          registry-url: "https://registry.npmjs.org/"
+
+      - name: 📦 Instalar dependências
+        run: npm install
+
+      - name: 🔐 Autenticar no NPM
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: 🚀 Publicar versão dev
+        run: npm run publish:dev
