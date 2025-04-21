@@ -50,6 +50,10 @@ jobs:
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> $HOME/.npmrc
           cat $HOME/.npmrc
+
+      - name: 🕵️ Verificar autenticação no NPM
+        run: npm whoami
+
       - name: 🆕 Criar nova versão dev
         run: |
           echo "📦 Gerando versão prerelease com preid=dev..."
