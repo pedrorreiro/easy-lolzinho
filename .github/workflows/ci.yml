@@ -36,14 +36,17 @@ jobs:
       - name: 📥 Checkout do código
         uses: actions/checkout@v3
 
-      - name: 🟢 Inicializar Node.js com token NPM
+      - name: 🟢 Inicializar Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
           registry-url: "https://registry.npmjs.org/"
-          scope: "@pedrorreiro"
-          always-auth: true
-          token: ${{ secrets.NPM_TOKEN }}
+
+      - name: 🔑 Autenticar no NPM
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+          npm config set always-auth yes
+          npm login --registry=https://registry.npmjs.org
 
       - name: 🕵️ Verificar autenticação no NPM
         run: npm whoami
