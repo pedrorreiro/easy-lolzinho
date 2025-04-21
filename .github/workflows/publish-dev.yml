@@ -20,4 +20,4 @@ jobs:
         run: npm install
 
       - name: Publicar versão de dev
-        run: npm publish:dev
+        run: npm run publish:dev
