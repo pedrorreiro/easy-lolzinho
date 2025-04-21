@@ -45,6 +45,9 @@ jobs:
           always-auth: true
           token: ${{ secrets.NPM_TOKEN }}
 
+      - name: 🕵️ Verificar autenticação no NPM
+        run: npm whoami
+
       - name: 📦 Instalar dependências
         run: npm install
 
