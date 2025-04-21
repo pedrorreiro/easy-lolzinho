@@ -45,6 +45,9 @@ jobs:
           scope: "@pedrorreiro"
           token: ${{ secrets.NPM_TOKEN }}
 
+      - name: 🔐 Mostrar início do token (debug leve)
+        run: echo "${{ secrets.NPM_TOKEN }}" | cut -c1-5
+
       - name: 🕵️ Verificar autenticação no NPM
         run: npm whoami
 
