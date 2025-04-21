@@ -44,9 +44,10 @@ jobs:
 
       - name: 🔑 Autenticar no NPM
         run: |
-          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
-          npm config set always-auth yes
-          npm login --registry=https://registry.npmjs.org
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
+          echo "always-auth=true" >> ~/.npmrc
+          cat ~/.npmrc
 
       - name: 🕵️ Verificar autenticação no NPM
         run: npm whoami
