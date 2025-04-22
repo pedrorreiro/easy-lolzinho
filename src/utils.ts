@@ -1,9 +1,10 @@
+import axios from "axios";
 import { LolzinhoError } from "./errors/LolzinhoError";
 import { RiotApiError } from "./errors/RiotApiError";
 
 export async function getLastVersion(): Promise<string> {
   try {
-    const response = await this.httpClient.get(
+    const response = await axios.get(
       `https://ddragon.leagueoflegends.com/api/versions.json`
     );
     const versions = response.data;

@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { getConfig } from "../../config";
+import { LolzinhoError } from "../../errors/LolzinhoError";
+import { RiotApiError } from "../../errors/RiotApiError";
 import { getLastVersion } from "../../utils";
 import { ChampionsDto } from "./types";
 
@@ -30,19 +32,21 @@ export class ChampionService {
 
       return response.data;
     } catch (error) {
-      throw new Error("Error fetching champions data");
+      const riotError = error as RiotApiError;
+
+      throw new LolzinhoError("Error fetching champions data", riotError);
     }
   }
 
-  async getChampionById(championId: number): Promise<any> {
-    try {
-      const response = await this.httpClient.get(
-        `/lol/champion/v4/champions/${championId}`
-      );
+  // async getChampionById(championId: number): Promise<any> {
+  //   try {
+  //     const response = await this.httpClient.get(
+  //       `/lol/champion/v4/champions/${championId}`
+  //     );
 
-      return response.data;
-    } catch (error) {
-      throw new Error("Error fetching champion data");
-    }
-  }
+  //     return response.data;
+  //   } catch (error) {
+  //     throw new Error("Error fetching champion data");
+  //   }
+  // }
 }
