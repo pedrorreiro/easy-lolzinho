@@ -2,12 +2,16 @@
 set -e
 
 echo ""
-echo "🛠️  Buildando projeto..."
+echo "🛠️  Building project..."
 npm run build
 
 echo ""
-echo "🚀 Publicando no NPM..."
+echo "📦 Creating development version..."
+npm version prerelease --preid=dev --no-git-tag-version
+
+echo ""
+echo "🚀 Publishing to NPM..."
 npm publish --access public
 
 echo ""
-echo "✅ Publicado com sucesso!"
+echo "✅ Successfully published!"
