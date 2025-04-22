@@ -27,39 +27,39 @@ jobs:
       - name: ✅ Rodar testes
         run: npm test
 
-  publish-dev:
-    name: 🚀 Publicar versão dev no NPM
-    needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: dev
-    steps:
-      - name: 📥 Checkout do código
-        uses: actions/checkout@v3
+  # publish-dev:
+  #   name: 🚀 Publicar versão dev no NPM
+  #   needs: test
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   environment: dev
+  #   steps:
+  #     - name: 📥 Checkout do código
+  #       uses: actions/checkout@v3
 
-      - name: 🟢 Inicializar Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-          registry-url: "https://registry.npmjs.org/"
-          scope: "@pedrorreiro"
-          token: ${{ secrets.NPM_TOKEN }}
+  #     - name: 🟢 Inicializar Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "18"
+  #         registry-url: "https://registry.npmjs.org/"
+  #         scope: "@pedrorreiro"
+  #         token: ${{ secrets.NPM_TOKEN }}
 
-      - name: 🔐 Mostrar início do token (debug leve)
-        run: echo "${{ secrets.NPM_TOKEN }}" | cut -c1-5
+  #     - name: 🔐 Mostrar início do token (debug leve)
+  #       run: echo "${{ secrets.NPM_TOKEN }}" | cut -c1-5
 
-      - name: 🕵️ Verificar autenticação no NPM
-        run: npm whoami
+  #     - name: 🕵️ Verificar autenticação no NPM
+  #       run: npm whoami
 
-      - name: 📦 Instalar dependências
-        run: npm install
+  #     - name: 📦 Instalar dependências
+  #       run: npm install
 
-      - name: 🆕 Criar nova versão dev
-        run: |
-          echo "📦 Gerando versão prerelease com preid=dev..."
-          npm version prerelease --preid=dev --no-git-tag-version
-          echo "🔎 Nova versão:"
-          npm pkg get version
+  #     - name: 🆕 Criar nova versão dev
+  #       run: |
+  #         echo "📦 Gerando versão prerelease com preid=dev..."
+  #         npm version prerelease --preid=dev --no-git-tag-version
+  #         echo "🔎 Nova versão:"
+  #         npm pkg get version
 
-      - name: 🚀 Publicar versão dev
-        run: npm run publish:dev
+  #     - name: 🚀 Publicar versão dev
+  #       run: npm run publish:dev
