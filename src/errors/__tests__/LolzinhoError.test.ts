@@ -12,10 +12,13 @@ describe("LolzinhoError", () => {
 
   it("should include RiotApiError information in the message when provided", () => {
     const message = "Error fetching data";
-    const riotError = new RiotApiError(404, "Not Found");
+
+    const riotErrorMessage = "Not Found";
+
+    const riotError = new RiotApiError(404, riotErrorMessage);
     const error = new LolzinhoError(message, riotError);
 
-    expect(error.message).toBe(`${message} - (404) Not Found`);
+    expect(error.message).toBe(`${message} - ${riotErrorMessage}`);
     expect(error).toHaveProperty("riotError", riotError);
   });
 });

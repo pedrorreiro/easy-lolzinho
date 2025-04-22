@@ -6,7 +6,7 @@ export class LolzinhoError extends Error {
 
   constructor(message: string, riotError?: RiotApiError) {
     if (riotError) {
-      message = `${message} - (${riotError.statusCode}) ${riotError.message}`;
+      message = `${message} - ${riotError.message}`;
     }
 
     super(message);

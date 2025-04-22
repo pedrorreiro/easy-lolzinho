@@ -30,7 +30,16 @@ export class ChampionService {
         `${lastVersion}/data/${language}/champion.json`
       );
 
-      return response.data;
+      const championData = response.data;
+      const championMap = new Map();
+
+      Object.keys(championData.data).forEach((key) => {
+        championMap.set(key, championData.data[key]);
+      });
+
+      championData.data = championMap;
+
+      return championData;
     } catch (error) {
       const riotError = error as RiotApiError;
 
