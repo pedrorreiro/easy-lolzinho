@@ -16,6 +16,7 @@ import { FreeWeekService } from "./resources/freeWeek/freeweek.service";
 import { FreeWeekDto } from "./resources/freeWeek/types";
 import { SummonerService } from "./resources/summoner/summoner.service";
 import { SummonerDTO } from "./resources/summoner/types";
+import { GetAllChampionsParams } from "./types";
 dotenv.config();
 
 /**
@@ -117,16 +118,15 @@ export class LolzinhoClientClass {
   /**
    * Fetches all champions
    * @returns Data for all champions
-   * @param language - Language code (e.g., "en_US")
+   * @param params - Optional parameters
+   * @param params.language - Language code (e.g., "en_US")
    * @throws {LolzinhoError} - If the client is not initialized
    */
   @RequireInit()
-  async getAllChampions({
-    language,
-  }: {
-    language?: string;
-  }): Promise<ChampionsDto> {
-    return await this.championService.getAllChampions({ language });
+  async getAllChampions(params?: GetAllChampionsParams): Promise<ChampionsDto> {
+    return await this.championService.getAllChampions({
+      language: params?.language,
+    });
   }
 }
 

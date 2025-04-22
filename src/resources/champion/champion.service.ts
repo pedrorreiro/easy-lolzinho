@@ -17,15 +17,9 @@ export class ChampionService {
     this.httpClient = client;
   }
 
-  async getAllChampions({
-    language,
-  }: {
-    language?: string;
-  }): Promise<ChampionsDto> {
-    if (!language) {
-      const config = getConfig();
-      language = config.language;
-    }
+  async getAllChampions(params?: { language?: string }): Promise<ChampionsDto> {
+    const config = getConfig();
+    const language = params?.language || config.language;
 
     try {
       const lastVersion = await getLastVersion();
