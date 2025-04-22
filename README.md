@@ -62,6 +62,8 @@ import { LolzinhoClient } from "@pedrorreiro/lolzinho";
 
 - `getFreeWeek(): Promise<FreeWeekDto>`
 
+- `getAllChampions(): Promise<ChampionsDto>`
+
 (more methods coming soon...)
 
 ---
