@@ -1,14 +1,12 @@
 import axios, { AxiosInstance } from "axios";
+import { getConfig } from "../../config";
 import { getLastVersion } from "../../utils";
 import { ChampionsDto } from "./types";
 
 export class ChampionService {
   private readonly httpClient: AxiosInstance;
-  private readonly language: string = "pt_BR";
 
-  constructor(riotApiKey: string, language: string) {
-    this.language = language;
-
+  constructor(riotApiKey: string) {
     const client = axios.create({
       baseURL: `https://ddragon.leagueoflegends.com/cdn/`,
       headers: {
@@ -19,12 +17,21 @@ export class ChampionService {
     this.httpClient = client;
   }
 
-  async getAllChampions(): Promise<ChampionsDto> {
+  async getAllChampions({
+    language,
+  }: {
+    language?: string;
+  }): Promise<ChampionsDto> {
+    if (!language) {
+      const config = getConfig();
+      language = config.language;
+    }
+
     try {
       const lastVersion = await getLastVersion();
 
       const response = await this.httpClient.get(
-        `${lastVersion}/data/${this.language}/champion.json`
+        `${lastVersion}/data/${language}/champion.json`
       );
 
       return response.data;

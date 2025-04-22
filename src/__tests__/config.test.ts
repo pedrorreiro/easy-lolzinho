@@ -14,6 +14,7 @@ describe("Config", () => {
         riotApiKey: "abc123",
         regionalRouting: "americas",
         platformRouting: "br1",
+        language: "en_US",
       });
     });
 
@@ -28,6 +29,7 @@ describe("Config", () => {
         riotApiKey: "abc123",
         regionalRouting: "europe",
         platformRouting: "euw1",
+        language: "en_US",
       });
     });
   });
@@ -41,6 +43,7 @@ describe("Config", () => {
       riotApiKey: "abc123",
       regionalRouting: "americas",
       platformRouting: "br1",
+      language: "en_US",
     });
   });
 

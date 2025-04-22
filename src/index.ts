@@ -88,6 +88,8 @@ export class LolzinhoClientClass {
       this.riotApiKey,
       this.platformRouting
     );
+
+    this.championService = new ChampionService(this.riotApiKey);
   }
 
   /**
@@ -115,11 +117,16 @@ export class LolzinhoClientClass {
   /**
    * Fetches all champions
    * @returns Data for all champions
+   * @param language - Language code (e.g., "en_US")
    * @throws {LolzinhoError} - If the client is not initialized
    */
   @RequireInit()
-  async getAllChampions(): Promise<ChampionsDto> {
-    return await this.championService.getAllChampions();
+  async getAllChampions({
+    language,
+  }: {
+    language?: string;
+  }): Promise<ChampionsDto> {
+    return await this.championService.getAllChampions({ language });
   }
 }
 
