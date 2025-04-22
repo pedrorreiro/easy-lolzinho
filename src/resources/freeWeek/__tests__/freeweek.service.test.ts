@@ -70,7 +70,7 @@ describe("FreeWeekService", () => {
 
       await expect(service.getFreeWeekChampions()).rejects.toHaveProperty(
         "message",
-        "Error while fetching Free Week champions - (403) Forbidden"
+        "Error while fetching Free Week champions - Forbidden"
       );
     });
   });
