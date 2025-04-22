@@ -1,7 +1,7 @@
 import { RiotApiError } from "../RiotApiError";
 
 describe("RiotApiError", () => {
-  it("deve criar um erro com o statusCode e a mensagem fornecidos", () => {
+  it("should create an error with the provided statusCode and message", () => {
     const statusCode = 403;
     const message = "Forbidden";
     const error = new RiotApiError(statusCode, message);

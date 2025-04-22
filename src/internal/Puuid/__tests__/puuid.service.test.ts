@@ -1,5 +1,5 @@
-import { LolzinhoError } from "../../errors/LolzinhoError";
-import { PuuidService } from "./puuid.service";
+import { LolzinhoError } from "../../../errors/LolzinhoError";
+import { PuuidService } from "../puuid.service";
 
 describe("PuuidService", () => {
   it("should return puuid for a given summoner name and tag line", async () => {

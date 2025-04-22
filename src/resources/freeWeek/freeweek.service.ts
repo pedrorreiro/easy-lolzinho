@@ -30,7 +30,7 @@ export class FreeWeekService {
       const riotError = error as RiotApiError;
 
       throw new LolzinhoError(
-        "Erro ao buscar os campeões da Free Week",
+        "Error while fetching Free Week champions",
         riotError
       );
     }

@@ -1,39 +1,39 @@
-# Testes Unitários - Lolzinho API
+# Unit Tests - Lolzinho API
 
-Este documento descreve como executar e criar testes unitários para o projeto Lolzinho API.
+This document describes how to run and create unit tests for the Lolzinho API project.
 
-## Configuração
+## Configuration
 
-O projeto utiliza Jest como framework de testes. A configuração está no arquivo `jest.config.js`.
+The project uses Jest as a testing framework. The configuration is in the `jest.config.js` file.
 
-## Executando os Testes
+## Running Tests
 
-Para executar todos os testes unitários:
+To run all unit tests:
 
 ```bash
 npm test
 ```
 
-Para executar testes com observação de alterações (útil durante o desenvolvimento):
+To run tests with watch mode (useful during development):
 
 ```bash
 npm test -- --watch
 ```
 
-Para executar um teste específico:
+To run a specific test:
 
 ```bash
-npm test -- -t 'nome do teste'
+npm test -- -t 'test name'
 ```
 
-## Estrutura dos Testes
+## Test Structure
 
-Os testes seguem a estrutura de diretórios do código-fonte:
+Tests follow the structure of the source code directories:
 
-- Os testes são colocados em diretórios `__tests__` próximos aos arquivos que estão sendo testados
-- Os arquivos de teste têm o sufixo `.test.ts` ou `.spec.ts`
+- Tests are placed in `__tests__` directories close to the files being tested
+- Test files have the suffix `.test.ts` or `.spec.ts`
 
-Exemplo:
+Example:
 
 ```
 src/
@@ -44,45 +44,13 @@ src/
         service.test.ts
 ```
 
-## Cobertura de Testes
+## Test Coverage
 
-A cobertura de testes é gerada automaticamente ao executar `npm test`. O relatório é exibido no terminal e também é gerado em HTML na pasta `coverage/`.
+Test coverage is automatically generated when running `npm test`. The report is displayed in the terminal and also generated in HTML in the `coverage/` folder.
 
-## Criando Novos Testes
+### Best Practices
 
-### Exemplo de Teste para um Serviço
-
-```typescript
-// Importe as dependências e a classe a ser testada
-import { SeuServico } from "../seuservico";
-// Use mocks para APIs externas
-jest.mock("axios");
-
-describe("SeuServico", () => {
-  let servico: SeuServico;
-
-  beforeEach(() => {
-    // Configuração para cada teste
-    servico = new SeuServico();
-  });
-
-  it("deve fazer algo específico", () => {
-    // Arrange (preparação)
-    const parametro = "valor";
-
-    // Act (ação)
-    const resultado = servico.metodo(parametro);
-
-    // Assert (verificação)
-    expect(resultado).toBe("valor esperado");
-  });
-});
-```
-
-### Melhores Práticas
-
-1. **Isole os testes**: Utilize mocks para APIs externas e outros serviços
-2. **Nomenclatura clara**: Os nomes dos testes devem descrever o que está sendo testado
-3. **AAA**: Siga o padrão Arrange-Act-Assert
-4. **Teste os casos de erro**: Certifique-se de testar cenários de falha
-5. **Mantenha os testes independentes**: Cada teste deve ser independente dos outros
+1. **Isolate tests**: Use mocks for external APIs and other services
+2. **Clear naming**: Test names should describe what is being tested
+3. **Test error cases**: Make sure to test failure scenarios
+4. **Keep tests independent**: Each test should be independent of others

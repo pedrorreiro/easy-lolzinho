@@ -4,11 +4,11 @@
 .
 ![NPM Downloads](https://img.shields.io/npm/dm/%40pedrorreiro%2Flolzinho)
 
-Um wrapper simples e direto para a API da Riot Games (League of Legends), feito com TypeScript.
+A simple and direct wrapper for the Riot Games API (League of Legends), built with TypeScript.
 
 ---
 
-## 🚀 Instalação
+## 🚀 Installation
 
 ```bash
 npm install @pedrorreiro/lolzinho
@@ -16,34 +16,34 @@ npm install @pedrorreiro/lolzinho
 
 ---
 
-## 💠 Inicialização
+## 💠 Initialization
 
-Antes de usar qualquer método, você precisa **inicializar a biblioteca com a [chave da Riot](https://developer.riotgames.com/)**.
+Before using any method, you need to **initialize the library with the [Riot key](https://developer.riotgames.com/)**.
 
 ```ts
 import { LolzinhoClient } from "@pedrorreiro/lolzinho";
 
-// Inicialização básica (região padrão: BR1)
+// Basic initialization (default region: BR1)
 LolzinhoClient.init({
-  riotApiKey: "SUA_CHAVE_API_RIOT",
+  riotApiKey: "YOUR_RIOT_API_KEY",
 });
 ```
 
-### 🌍 Inicialização com regiões personalizadas
+### 🌍 Initialization with custom regions
 
 ```ts
 LolzinhoClient.init({
-  riotApiKey: "SUA_CHAVE_API_RIOT",
-  regionalRouting: "europe", // Padrão: "americas"
-  platformRouting: "euw1", // Padrão: "br1"
+  riotApiKey: "YOUR_RIOT_API_KEY",
+  regionalRouting: "europe", // Default: "americas"
+  platformRouting: "euw1", // Default: "br1"
 });
 ```
 
 ---
 
-## 📘 Exemplos de uso
+## 📘 Usage examples
 
-### 🔍 Buscar invocador pelo nome
+### 🔍 Find summoner by name
 
 ```ts
 import { LolzinhoClient } from "@pedrorreiro/lolzinho";
@@ -56,23 +56,23 @@ import { LolzinhoClient } from "@pedrorreiro/lolzinho";
 
 ---
 
-## 🧹 Métodos disponíveis
+## 🧹 Available methods
 
 - `getSummonerByName(summonerName: string): Promise<SummonerDTO>`
 
 - `getFreeWeek(): Promise<FreeWeekDto>`
 
-(mais métodos em breve...)
+(more methods coming soon...)
 
 ---
 
-## 📦 Requisitos
+## 📦 Requirements
 
 - Node.js >= 18
-- Uma chave válida da API da Riot: [developer.riotgames.com](https://developer.riotgames.com)
+- A valid Riot API key: [developer.riotgames.com](https://developer.riotgames.com)
 
 ---
 
-## 📄 Licença
+## 📄 License
 
 MIT

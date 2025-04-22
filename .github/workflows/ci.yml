@@ -10,34 +10,34 @@ on:
 
 jobs:
   test:
-    name: 🧪 Rodar Testes
+    name: 🧪 Run Tests
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout do código
+      - name: 📥 Checkout code
         uses: actions/checkout@v3
 
-      - name: 🛠️ Setup do Node.js
+      - name: 🛠️ Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
 
-      - name: 📦 Instalar dependências
+      - name: 📦 Install dependencies
         run: npm install
 
-      - name: ✅ Rodar testes
+      - name: ✅ Run tests
         run: npm test
 
   # publish-dev:
-  #   name: 🚀 Publicar versão dev no NPM
+  #   name: 🚀 Publish dev version on NPM
   #   needs: test
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
   #   runs-on: ubuntu-latest
   #   environment: dev
   #   steps:
-  #     - name: 📥 Checkout do código
+  #     - name: 📥 Checkout code
   #       uses: actions/checkout@v3
 
-  #     - name: 🟢 Inicializar Node.js
+  #     - name: 🟢 Initialize Node.js
   #       uses: actions/setup-node@v3
   #       with:
   #         node-version: "18"
@@ -45,21 +45,21 @@ jobs:
   #         scope: "@pedrorreiro"
   #         token: ${{ secrets.NPM_TOKEN }}
 
-  #     - name: 🔐 Mostrar início do token (debug leve)
+  #     - name: 🔐 Show beginning of token (light debug)
   #       run: echo "${{ secrets.NPM_TOKEN }}" | cut -c1-5
 
-  #     - name: 🕵️ Verificar autenticação no NPM
+  #     - name: 🕵️ Verify NPM authentication
   #       run: npm whoami
 
-  #     - name: 📦 Instalar dependências
+  #     - name: 📦 Install dependencies
   #       run: npm install
 
-  #     - name: 🆕 Criar nova versão dev
+  #     - name: 🆕 Create new dev version
   #       run: |
-  #         echo "📦 Gerando versão prerelease com preid=dev..."
+  #         echo "📦 Generating prerelease version with preid=dev..."
   #         npm version prerelease --preid=dev --no-git-tag-version
-  #         echo "🔎 Nova versão:"
+  #         echo "🔎 New version:"
   #         npm pkg get version
 
-  #     - name: 🚀 Publicar versão dev
+  #     - name: 🚀 Publish dev version
   #       run: npm run publish:dev

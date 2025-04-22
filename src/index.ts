@@ -10,6 +10,8 @@ import {
 import { RequireInit } from "./decorators/RequireInit";
 import { LolzinhoError } from "./errors/LolzinhoError";
 import { PuuidService } from "./internal/Puuid/puuid.service";
+import { ChampionService } from "./resources/champion/champion.service";
+import { ChampionsDto } from "./resources/champion/types";
 import { FreeWeekService } from "./resources/freeWeek/freeweek.service";
 import { FreeWeekDto } from "./resources/freeWeek/types";
 import { SummonerService } from "./resources/summoner/summoner.service";
@@ -17,7 +19,7 @@ import { SummonerDTO } from "./resources/summoner/types";
 dotenv.config();
 
 /**
- * Cliente principal da API do Lolzinho
+ * Main client for the Lolzinho API
  */
 export class LolzinhoClientClass {
   private riotApiKey: string;
@@ -26,14 +28,15 @@ export class LolzinhoClientClass {
   private puuidService: PuuidService;
   private summonerService: SummonerService;
   private freeWeekService: FreeWeekService;
+  private championService: ChampionService;
 
   /**
-   * Inicializa o client da API do Lolzinho
+   * Initializes the Lolzinho API client
    *
-   * @param riotApiKey - Chave da API da Riot Games
-   * @param regionalRouting - Roteamento regional (default: americas)
-   * @param platformRouting - Roteamento da plataforma (default: br1)
-   * @throws {LolzinhoError} - Se a chave da API não for fornecida ou se o client já estiver inicializado
+   * @param riotApiKey - Riot Games API key
+   * @param regionalRouting - Regional routing (default: americas)
+   * @param platformRouting - Platform routing (default: br1)
+   * @throws {LolzinhoError} - If the API key is not provided or if the client is already initialized
    
   
     * @example
@@ -88,10 +91,10 @@ export class LolzinhoClientClass {
   }
 
   /**
-   * Busca um invocador pelo nome
-   * @param summonerName - Nome do invocador
-   * @returns Dados do invocador
-   * @throws {LolzinhoError} - Se o cliente não estiver inicializado
+   * Finds a summoner by name
+   * @param summonerName - Summoner name
+   * @returns Summoner data
+   * @throws {LolzinhoError} - If the client is not initialized
    */
   @RequireInit()
   async getSummonerByName(summonerName: string): Promise<SummonerDTO> {
@@ -100,13 +103,23 @@ export class LolzinhoClientClass {
   }
 
   /**
-   * Busca a rotina de campeões grátis da semana
-   * @returns Dados dos campeões grátis da semana
-   * @throws {LolzinhoError} - Se o cliente não estiver inicializado
+   * Fetches the free champion rotation of the week
+   * @returns Free champion rotation data
+   * @throws {LolzinhoError} - If the client is not initialized
    */
   @RequireInit()
   async getFreeWeek(): Promise<FreeWeekDto> {
     return await this.freeWeekService.getFreeWeekChampions();
+  }
+
+  /**
+   * Fetches all champions
+   * @returns Data for all champions
+   * @throws {LolzinhoError} - If the client is not initialized
+   */
+  @RequireInit()
+  async getAllChampions(): Promise<ChampionsDto> {
+    return await this.championService.getAllChampions();
   }
 }
 

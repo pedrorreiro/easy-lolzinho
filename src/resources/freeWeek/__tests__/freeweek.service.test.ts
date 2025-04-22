@@ -13,18 +13,14 @@ describe("FreeWeekService", () => {
   let mockAxiosInstance: any;
 
   beforeEach(() => {
-    // Mock para o cliente HTTP retornado pelo axios.create
     mockAxiosInstance = {
       get: jest.fn(),
     };
 
-    // Configuração do mock para axios.create
     mockedAxios.create.mockReturnValue(mockAxiosInstance);
 
-    // Criar instância do serviço
     service = new FreeWeekService(riotApiKey, platformRouting);
 
-    // Limpar todos os mocks após cada teste
     jest.clearAllMocks();
   });
 
@@ -72,8 +68,9 @@ describe("FreeWeekService", () => {
         LolzinhoError
       );
 
-      await expect(service.getFreeWeekChampions()).rejects.toThrow(
-        "Erro ao buscar os campeões da Free Week - (403) Forbidden"
+      await expect(service.getFreeWeekChampions()).rejects.toHaveProperty(
+        "message",
+        "Error while fetching Free Week champions - (403) Forbidden"
       );
     });
   });

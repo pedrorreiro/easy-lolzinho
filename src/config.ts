@@ -20,7 +20,7 @@ export function setConfig(config: LolzinhoApiParams): void {
 }
 
 /**
- * Retorna a configuração atual
+ * Returns the current configuration
  */
 export function getConfig(): LolzinhoApiParams {
   return { ...lolzinhoConfig };
