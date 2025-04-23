@@ -1,4 +1,4 @@
-import { LolzinhoClient, LolzinhoClientClass } from "../";
+import { ZhonyaClient, ZhonyaClientClass } from "../";
 import * as config from "../config";
 
 describe("Config", () => {
@@ -10,7 +10,7 @@ describe("Config", () => {
     it("should apply default routing values when missing", () => {
       config.setConfig({ riotApiKey: "abc123" });
 
-      expect(config.lolzinhoConfig).toEqual({
+      expect(config.zhonyaConfig).toEqual({
         riotApiKey: "abc123",
         regionalRouting: "americas",
         platformRouting: "br1",
@@ -25,7 +25,7 @@ describe("Config", () => {
         platformRouting: "euw1",
       });
 
-      expect(config.lolzinhoConfig).toEqual({
+      expect(config.zhonyaConfig).toEqual({
         riotApiKey: "abc123",
         regionalRouting: "europe",
         platformRouting: "euw1",
@@ -47,12 +47,12 @@ describe("Config", () => {
     });
   });
 
-  it("checkConfig should return true if LolzinhoClient is set and not empty", () => {
+  it("checkConfig should return true if ZhonyaClient is set and not empty", () => {
     jest.mock("../", () => ({
-      LolzinhoClient: new LolzinhoClientClass(),
+      ZhonyaClient: new ZhonyaClientClass(),
     }));
 
-    LolzinhoClient.init({
+    ZhonyaClient.init({
       riotApiKey: "123456",
     });
 
@@ -60,9 +60,9 @@ describe("Config", () => {
     expect(isValid).toBe(true);
   });
 
-  it("checkConfig should return true if LolzinhoClient is set and not empty", async () => {
+  it("checkConfig should return true if ZhonyaClient is set and not empty", async () => {
     jest.mock("../", () => ({
-      LolzinhoClient: new LolzinhoClientClass(),
+      ZhonyaClient: new ZhonyaClientClass(),
     }));
 
     const config = await import("../config");

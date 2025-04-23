@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
-import { LolzinhoError } from "../../errors/LolzinhoError";
 import { RiotApiError } from "../../errors/RiotApiError";
+import { ZhonyaError } from "../../errors/ZhonyaError";
 import { FreeWeekDto, GetFreeWeekResponse } from "./types";
 
 export class FreeWeekService {
@@ -29,7 +29,7 @@ export class FreeWeekService {
     } catch (error) {
       const riotError = error as RiotApiError;
 
-      throw new LolzinhoError(
+      throw new ZhonyaError(
         "Error while fetching Free Week champions",
         riotError
       );

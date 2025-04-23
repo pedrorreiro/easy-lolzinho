@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
-import { LolzinhoError } from "../../errors/LolzinhoError";
 import { RiotApiError } from "../../errors/RiotApiError";
+import { ZhonyaError } from "../../errors/ZhonyaError";
 
 export class PuuidService {
   private readonly httpClient: AxiosInstance;
@@ -31,10 +31,7 @@ export class PuuidService {
     } catch (error: any) {
       const riotError = error as RiotApiError;
 
-      throw new LolzinhoError(
-        "Erro ao buscar a versão mais recente",
-        riotError
-      );
+      throw new ZhonyaError("Erro ao buscar a versão mais recente", riotError);
     }
   }
 }

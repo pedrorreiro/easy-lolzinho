@@ -1,9 +1,21 @@
 {
-  "name": "@pedrorreiro/lolzinho",
-  "version": "0.0.1-dev.21",
-  "description": "A simple library to make lolzinho",
+  "name": "zhonya",
+  "version": "1.0.0",
+  "description": "A simple and typed League of Legends API wrapper for Node.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "keywords": [
+    "lol",
+    "riot",
+    "riot-api",
+    "league-of-legends",
+    "league",
+    "lol-api",
+    "riot-games",
+    "typescript",
+    "node",
+    "wrapper"
+  ],
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node dist/index.js",
@@ -19,18 +31,23 @@
   "files": [
     "dist",
     "package.json",
-    "*.md"
+    "README.md",
+    "LICENSE"
   ],
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.js"
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pedrorreiro/zhonya.git"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
@@ -41,7 +58,6 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@pedrorreiro/lolzinho": "^0.0.1-dev.18",
     "axios": "^1.8.4",
     "dotenv": "^16.5.0"
   }

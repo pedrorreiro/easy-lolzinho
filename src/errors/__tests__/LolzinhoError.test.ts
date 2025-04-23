@@ -1,10 +1,10 @@
-import { LolzinhoError } from "../LolzinhoError";
 import { RiotApiError } from "../RiotApiError";
+import { ZhonyaError } from "../ZhonyaError";
 
-describe("LolzinhoError", () => {
+describe("ZhonyaError", () => {
   it("should create an error with the provided message", () => {
     const message = "Error test";
-    const error = new LolzinhoError(message);
+    const error = new ZhonyaError(message);
 
     expect(error.message).toBe(message);
     expect(error.riotError).toBeUndefined();
@@ -16,7 +16,7 @@ describe("LolzinhoError", () => {
     const riotErrorMessage = "Not Found";
 
     const riotError = new RiotApiError(404, riotErrorMessage);
-    const error = new LolzinhoError(message, riotError);
+    const error = new ZhonyaError(message, riotError);
 
     expect(error.message).toBe(`${message} - ${riotErrorMessage}`);
     expect(error).toHaveProperty("riotError", riotError);

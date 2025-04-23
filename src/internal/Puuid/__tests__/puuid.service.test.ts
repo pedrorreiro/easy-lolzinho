@@ -1,4 +1,4 @@
-import { LolzinhoError } from "../../../errors/LolzinhoError";
+import { ZhonyaError } from "../../../errors/ZhonyaError";
 import { PuuidService } from "../puuid.service";
 
 describe("PuuidService", () => {
@@ -39,6 +39,6 @@ describe("PuuidService", () => {
 
     await expect(
       puuidService.getByName("summonerName", "tagLine")
-    ).rejects.toThrow(LolzinhoError);
+    ).rejects.toThrow(ZhonyaError);
   });
 });

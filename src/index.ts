@@ -4,11 +4,11 @@ import {
   DEFAULT_PLATFORM_ROUTING,
   DEFAULT_REGIONAL_ROUTING,
   getConfig,
-  LolzinhoApiParams,
   setConfig,
+  ZhonyaParams,
 } from "./config";
 import { RequireInit } from "./decorators/RequireInit";
-import { LolzinhoError } from "./errors/LolzinhoError";
+import { ZhonyaError } from "./errors/ZhonyaError";
 import { PuuidService } from "./internal/Puuid/puuid.service";
 import { ChampionService } from "./resources/champion/champion.service";
 import { ChampionsDto } from "./resources/champion/types";
@@ -20,9 +20,9 @@ import { GetAllChampionsParams } from "./types";
 dotenv.config();
 
 /**
- * Main client for the Lolzinho API
+ * Main client for the Zhonya
  */
-export class LolzinhoClientClass {
+export class ZhonyaClientClass {
   private riotApiKey: string;
   private regionalRouting: string;
   private platformRouting: string;
@@ -32,19 +32,19 @@ export class LolzinhoClientClass {
   private championService: ChampionService;
 
   /**
-   * Initializes the Lolzinho API client
+   * Initializes the Zhonya client
    *
    * @param riotApiKey - Riot Games API key
    * @param regionalRouting - Regional routing (default: americas)
    * @param platformRouting - Platform routing (default: br1)
-   * @throws {LolzinhoError} - If the API key is not provided or if the client is already initialized
+   * @throws {ZhonyaError} - If the API key is not provided or if the client is already initialized
    
   
     * @example
     * ```typescript
-    * import { LolzinhoClient } from "lolzinho-api";
+    * import { ZhonyaClient } from "zhonya";
     *
-    * LolzinhoClient.init({
+    * ZhonyaClient.init({
     *   riotApiKey: process.env.RIOT_API_KEY,
     *   regionalRouting: "americas",
     *   platformRouting: "br1",
@@ -57,15 +57,15 @@ export class LolzinhoClientClass {
     riotApiKey,
     regionalRouting = DEFAULT_REGIONAL_ROUTING,
     platformRouting = DEFAULT_PLATFORM_ROUTING,
-  }: LolzinhoApiParams): void {
+  }: ZhonyaParams): void {
     if (!riotApiKey) {
-      throw new LolzinhoError("Riot API key is required");
+      throw new ZhonyaError("Riot API key is required");
     }
 
     const alreadyInitialized = checkConfig();
 
     if (alreadyInitialized) {
-      throw new LolzinhoError("Lolzinho API is already initialized");
+      throw new ZhonyaError("Zhonya client is already initialized");
     }
 
     setConfig({
@@ -97,7 +97,7 @@ export class LolzinhoClientClass {
    * Finds a summoner by name
    * @param summonerName - Summoner name
    * @returns Summoner data
-   * @throws {LolzinhoError} - If the client is not initialized
+   * @throws {ZhonyaError} - If the client is not initialized
    */
   @RequireInit()
   async getSummonerByName(summonerName: string): Promise<SummonerDTO> {
@@ -108,7 +108,7 @@ export class LolzinhoClientClass {
   /**
    * Fetches the free champion rotation of the week
    * @returns Free champion rotation data
-   * @throws {LolzinhoError} - If the client is not initialized
+   * @throws {ZhonyaError} - If the client is not initialized
    */
   @RequireInit()
   async getFreeWeek(): Promise<FreeWeekDto> {
@@ -120,7 +120,7 @@ export class LolzinhoClientClass {
    * @returns Data for all champions
    * @param params - Optional parameters
    * @param params.language - Language code (e.g., "en_US")
-   * @throws {LolzinhoError} - If the client is not initialized
+   * @throws {ZhonyaError} - If the client is not initialized
    */
   @RequireInit()
   async getAllChampions(params?: GetAllChampionsParams): Promise<ChampionsDto> {
@@ -130,4 +130,4 @@ export class LolzinhoClientClass {
   }
 }
 
-export const LolzinhoClient = new LolzinhoClientClass();
+export const ZhonyaClient = new ZhonyaClientClass();

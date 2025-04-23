@@ -1,6 +1,6 @@
 import axios from "axios";
-import { LolzinhoError } from "./errors/LolzinhoError";
 import { RiotApiError } from "./errors/RiotApiError";
+import { ZhonyaError } from "./errors/ZhonyaError";
 
 export async function getLastVersion(): Promise<string> {
   try {
@@ -12,9 +12,6 @@ export async function getLastVersion(): Promise<string> {
   } catch (error) {
     const riotError = error as RiotApiError;
 
-    throw new LolzinhoError(
-      "Error while fetching the latest version",
-      riotError
-    );
+    throw new ZhonyaError("Error while fetching the latest version", riotError);
   }
 }

@@ -1,20 +1,20 @@
-import { LolzinhoClient } from ".";
+import { ZhonyaClient } from ".";
 
-export type LolzinhoApiParams = {
+export type ZhonyaParams = {
   riotApiKey: string;
   regionalRouting?: string;
   platformRouting?: string;
   language?: string;
 };
 
-export let lolzinhoConfig: LolzinhoApiParams | null;
+export let zhonyaConfig: ZhonyaParams | null;
 
 export const DEFAULT_REGIONAL_ROUTING = "americas";
 export const DEFAULT_PLATFORM_ROUTING = "br1";
 export const DEFAULT_LANGUAGE = "en_US";
 
-export function setConfig(config: LolzinhoApiParams): void {
-  lolzinhoConfig = {
+export function setConfig(config: ZhonyaParams): void {
+  zhonyaConfig = {
     regionalRouting: DEFAULT_REGIONAL_ROUTING,
     platformRouting: DEFAULT_PLATFORM_ROUTING,
     language: DEFAULT_LANGUAGE,
@@ -25,8 +25,8 @@ export function setConfig(config: LolzinhoApiParams): void {
 /**
  * Returns the current configuration
  */
-export function getConfig(): LolzinhoApiParams {
-  return { ...lolzinhoConfig };
+export function getConfig(): ZhonyaParams {
+  return { ...zhonyaConfig };
 }
 
 export function checkConfig(): boolean {
@@ -34,7 +34,7 @@ export function checkConfig(): boolean {
     return Object.keys(obj).length === 0;
   };
 
-  const isConfigValid = LolzinhoClient && !isObjectEmpty(LolzinhoClient);
+  const isConfigValid = ZhonyaClient && !isObjectEmpty(ZhonyaClient);
 
   return isConfigValid;
 }

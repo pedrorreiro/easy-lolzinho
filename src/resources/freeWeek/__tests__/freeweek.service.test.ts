@@ -1,6 +1,6 @@
 import axios from "axios";
-import { LolzinhoError } from "../../../errors/LolzinhoError";
 import { RiotApiError } from "../../../errors/RiotApiError";
+import { ZhonyaError } from "../../../errors/ZhonyaError";
 import { FreeWeekService } from "../freeweek.service";
 
 jest.mock("axios");
@@ -59,14 +59,12 @@ describe("FreeWeekService", () => {
       expect(result).toEqual(mockData);
     });
 
-    it("should throw an LolzinhoError when request fails", async () => {
+    it("should throw an ZhonyaError when request fails", async () => {
       const riotError = new RiotApiError(403, "Forbidden");
 
       mockAxiosInstance.get.mockRejectedValue(riotError);
 
-      await expect(service.getFreeWeekChampions()).rejects.toThrow(
-        LolzinhoError
-      );
+      await expect(service.getFreeWeekChampions()).rejects.toThrow(ZhonyaError);
 
       await expect(service.getFreeWeekChampions()).rejects.toHaveProperty(
         "message",

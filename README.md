@@ -1,8 +1,8 @@
-# 🤙 @pedrorreiro/lolzinho
+# 🤙 Zhonya
 
-![npm (scoped)](https://img.shields.io/npm/v/@pedrorreiro/lolzinho)
+![npm (scoped)](https://img.shields.io/npm/v/zhonya)
 .
-![NPM Downloads](https://img.shields.io/npm/dm/%40pedrorreiro%2Flolzinho)
+![NPM Downloads](https://img.shields.io/npm/dm/zhonya)
 
 A simple and direct wrapper for the Riot Games API (League of Legends), built with TypeScript.
 
@@ -11,7 +11,7 @@ A simple and direct wrapper for the Riot Games API (League of Legends), built wi
 ## 🚀 Installation
 
 ```bash
-npm install @pedrorreiro/lolzinho
+npm install zhonya
 ```
 
 ---
@@ -21,10 +21,10 @@ npm install @pedrorreiro/lolzinho
 Before using any method, you need to **initialize the library with the [Riot key](https://developer.riotgames.com/)**.
 
 ```ts
-import { LolzinhoClient } from "@pedrorreiro/lolzinho";
+import { ZhonyaClient } from "zhonya";
 
 // Basic initialization (default region: BR1)
-LolzinhoClient.init({
+ZhonyaClient.init({
   riotApiKey: "YOUR_RIOT_API_KEY",
 });
 ```
@@ -32,7 +32,7 @@ LolzinhoClient.init({
 ### 🌍 Initialization with custom regions
 
 ```ts
-LolzinhoClient.init({
+ZhonyaClient.init({
   riotApiKey: "YOUR_RIOT_API_KEY",
   regionalRouting: "europe", // Default: "americas"
   platformRouting: "euw1", // Default: "br1"
@@ -46,10 +46,10 @@ LolzinhoClient.init({
 ### 🔍 Find summoner by name
 
 ```ts
-import { LolzinhoClient } from "@pedrorreiro/lolzinho";
+import { ZhonyaClient } from "zhonya";
 
 (async () => {
-  const summoner = await LolzinhoClient.getSummonerByName("Faker");
+  const summoner = await ZhonyaClient.getSummonerByName("Faker");
   console.log(summoner);
 })();
 ```

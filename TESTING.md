@@ -1,6 +1,6 @@
-# Unit Tests - Lolzinho API
+# Unit Tests - Zhonya
 
-This document describes how to run and create unit tests for the Lolzinho API project.
+This document describes how to run and create unit tests for the Zhonya project.
 
 ## Configuration
 

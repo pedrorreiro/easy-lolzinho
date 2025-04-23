@@ -1,6 +1,6 @@
 import { RiotApiError } from "./RiotApiError";
 
-export class LolzinhoError extends Error {
+export class ZhonyaError extends Error {
   public message: string;
   public riotError?: RiotApiError;
 

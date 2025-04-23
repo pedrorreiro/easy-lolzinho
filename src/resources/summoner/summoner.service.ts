@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
-import { LolzinhoError } from "../../errors/LolzinhoError";
 import { RiotApiError } from "../../errors/RiotApiError";
+import { ZhonyaError } from "../../errors/ZhonyaError";
 import { getLastVersion } from "../../utils";
 
 import { GetSummonerResponse, SummonerDTO } from "./types";
@@ -53,7 +53,7 @@ export class SummonerService {
     } catch (error) {
       const riotError = error as RiotApiError;
 
-      throw new LolzinhoError("Erro ao buscar invocador", riotError);
+      throw new ZhonyaError("Erro ao buscar invocador", riotError);
     }
   }
 }
