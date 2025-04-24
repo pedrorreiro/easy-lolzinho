@@ -1,16 +1,20 @@
 import axios, { AxiosInstance } from "axios";
+import { ZhonyaParams } from "../../config";
 import { RiotApiError } from "../../errors/RiotApiError";
 import { ZhonyaError } from "../../errors/ZhonyaError";
 import { FreeWeekDto, GetFreeWeekResponse } from "./types";
 
 export class FreeWeekService {
   private readonly httpClient: AxiosInstance;
+  private readonly config: ZhonyaParams;
 
-  constructor(riotApiKey: string, platformRouting: string) {
+  constructor(config: ZhonyaParams) {
+    this.config = config;
+
     const client = axios.create({
-      baseURL: `https://${platformRouting}.api.riotgames.com`,
+      baseURL: `https://${config.platformRouting}.api.riotgames.com`,
       headers: {
-        "X-Riot-Token": riotApiKey,
+        "X-Riot-Token": config.riotApiKey,
       },
     });
 

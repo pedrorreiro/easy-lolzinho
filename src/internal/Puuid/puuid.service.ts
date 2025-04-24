@@ -1,15 +1,19 @@
 import axios, { AxiosInstance } from "axios";
+import { ZhonyaParams } from "../../config";
 import { RiotApiError } from "../../errors/RiotApiError";
 import { ZhonyaError } from "../../errors/ZhonyaError";
 
 export class PuuidService {
   private readonly httpClient: AxiosInstance;
+  private readonly config: ZhonyaParams;
 
-  constructor(riotApiKey: string, regionalRouting: string) {
+  constructor(config: ZhonyaParams) {
+    this.config = config;
+
     const client = axios.create({
-      baseURL: `https://${regionalRouting}.api.riotgames.com/riot`,
+      baseURL: `https://${config.regionalRouting}.api.riotgames.com/riot`,
       headers: {
-        "X-Riot-Token": riotApiKey,
+        "X-Riot-Token": config.riotApiKey,
       },
     });
 
@@ -31,7 +35,7 @@ export class PuuidService {
     } catch (error: any) {
       const riotError = error as RiotApiError;
 
-      throw new ZhonyaError("Erro ao buscar a versão mais recente", riotError);
+      throw new ZhonyaError("Error while fetching PUUID", riotError);
     }
   }
 }

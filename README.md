@@ -18,13 +18,15 @@ npm install zhonya
 
 ## 💠 Initialization
 
-Before using any method, you need to **initialize the library with the [Riot key](https://developer.riotgames.com/)**.
+Depending on which methods you plan to use, you may need to initialize the library with a [Riot API key](https://developer.riotgames.com/).
+
+### 🔑 With API Key (Full Access)
 
 ```ts
 import { ZhonyaClient } from "zhonya";
 
 // Basic initialization (default region: BR1)
-ZhonyaClient.init({
+const client = ZhonyaClient.init({
   riotApiKey: "YOUR_RIOT_API_KEY",
 });
 ```
@@ -32,25 +34,36 @@ ZhonyaClient.init({
 ### 🌍 Initialization with custom regions
 
 ```ts
-ZhonyaClient.init({
+const client = ZhonyaClient.init({
   riotApiKey: "YOUR_RIOT_API_KEY",
   regionalRouting: "europe", // Default: "americas"
   platformRouting: "euw1", // Default: "br1"
 });
 ```
 
+### 🔓 Without API Key (Limited Access)
+
+```ts
+import { ZhonyaClient } from "zhonya";
+
+// Initialize without API key - only for methods that don't require authentication
+const client = ZhonyaClient.init();
+```
+
 ---
 
 ## 📘 Usage examples
 
-### 🔍 Find summoner by name
+### 📋 Get all champions (no API key required)
 
 ```ts
 import { ZhonyaClient } from "zhonya";
 
 (async () => {
-  const summoner = await ZhonyaClient.getSummonerByName("Faker");
-  console.log(summoner);
+  const client = ZhonyaClient.init();
+
+  const champions = await client.getAllChampions();
+  console.log(champions);
 })();
 ```
 
@@ -58,9 +71,12 @@ import { ZhonyaClient } from "zhonya";
 
 ## 🧹 Available methods
 
-- `getSummonerByName(summonerName: string): Promise<SummonerDTO>`
+### Methods that **require** an API key:
 
+- `getSummonerByName(summonerName: string): Promise<SummonerDTO>`
 - `getFreeWeek(): Promise<FreeWeekDto>`
+
+### Methods that **do not require** an API key:
 
 - `getAllChampions(): Promise<ChampionsDto>`
 
@@ -71,7 +87,7 @@ import { ZhonyaClient } from "zhonya";
 ## 📦 Requirements
 
 - Node.js >= 18
-- A valid Riot API key: [developer.riotgames.com](https://developer.riotgames.com)
+- A valid Riot API key: [developer.riotgames.com](https://developer.riotgames.com) (for authenticated methods)
 
 ---
 

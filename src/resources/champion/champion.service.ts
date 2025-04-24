@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { getConfig } from "../../config";
+import { ZhonyaParams } from "../../config";
 import { RiotApiError } from "../../errors/RiotApiError";
 import { ZhonyaError } from "../../errors/ZhonyaError";
 import { getLastVersion } from "../../utils";
@@ -7,21 +7,20 @@ import { ChampionsDto } from "./types";
 
 export class ChampionService {
   private readonly httpClient: AxiosInstance;
+  private readonly config: ZhonyaParams;
 
-  constructor(riotApiKey: string) {
+  constructor(config: ZhonyaParams) {
+    this.config = config;
+
     const client = axios.create({
       baseURL: `https://ddragon.leagueoflegends.com/cdn/`,
-      headers: {
-        "X-Riot-Token": riotApiKey,
-      },
     });
 
     this.httpClient = client;
   }
 
   async getAllChampions(params?: { language?: string }): Promise<ChampionsDto> {
-    const config = getConfig();
-    const language = params?.language || config.language;
+    const language = params?.language || this.config.language;
 
     try {
       const lastVersion = await getLastVersion();

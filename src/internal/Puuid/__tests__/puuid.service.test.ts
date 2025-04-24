@@ -1,9 +1,17 @@
+import { ZhonyaParams } from "../../../config";
 import { ZhonyaError } from "../../../errors/ZhonyaError";
 import { PuuidService } from "../puuid.service";
 
 describe("PuuidService", () => {
+  const mockConfig: ZhonyaParams = {
+    riotApiKey: "test-key",
+    regionalRouting: "americas",
+    platformRouting: "br1",
+    language: "pt_BR",
+  };
+
   it("should return puuid for a given summoner name and tag line", async () => {
-    const puuidService = new PuuidService("test-key", "americas");
+    const puuidService = new PuuidService(mockConfig);
 
     const mockResponse = "123";
 
@@ -29,7 +37,7 @@ describe("PuuidService", () => {
   });
 
   it("should throw an error if the request fails", async () => {
-    const puuidService = new PuuidService("test-key", "americas");
+    const puuidService = new PuuidService(mockConfig);
 
     const axiosGetMock = jest.spyOn(puuidService["httpClient"], "get");
 

@@ -1,73 +1,77 @@
-import { ZhonyaClient, ZhonyaClientClass } from "../";
-import * as config from "../config";
+import { ZhonyaClient } from "../client";
+import {
+  DEFAULT_LANGUAGE,
+  DEFAULT_PLATFORM_ROUTING,
+  DEFAULT_REGIONAL_ROUTING,
+} from "../config";
 
-describe("Config", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
+describe("Zhonya Configuration", () => {
+  describe("init", () => {
+    it("should apply default routing values when no parameters are provided", () => {
+      const client = ZhonyaClient.init();
 
-  describe("setConfig", () => {
-    it("should apply default routing values when missing", () => {
-      config.setConfig({ riotApiKey: "abc123" });
+      expect(client.config).toEqual({
+        riotApiKey: undefined,
+        regionalRouting: DEFAULT_REGIONAL_ROUTING,
+        platformRouting: DEFAULT_PLATFORM_ROUTING,
+        language: DEFAULT_LANGUAGE,
+      });
+    });
 
-      expect(config.zhonyaConfig).toEqual({
+    it("should apply default routing values when only API key is provided", () => {
+      const client = ZhonyaClient.init({ riotApiKey: "abc123" });
+
+      expect(client.config).toEqual({
         riotApiKey: "abc123",
-        regionalRouting: "americas",
-        platformRouting: "br1",
-        language: "en_US",
+        regionalRouting: DEFAULT_REGIONAL_ROUTING,
+        platformRouting: DEFAULT_PLATFORM_ROUTING,
+        language: DEFAULT_LANGUAGE,
       });
     });
 
     it("should override default routing when values are passed", () => {
-      config.setConfig({
+      const client = ZhonyaClient.init({
         riotApiKey: "abc123",
         regionalRouting: "europe",
         platformRouting: "euw1",
+        language: "pt_BR",
       });
 
-      expect(config.zhonyaConfig).toEqual({
+      expect(client.config).toEqual({
         riotApiKey: "abc123",
         regionalRouting: "europe",
         platformRouting: "euw1",
-        language: "en_US",
+        language: "pt_BR",
       });
     });
   });
 
-  it("getConfig should return current config", () => {
-    config.setConfig({ riotApiKey: "abc123" });
-
-    const currentConfig = config.getConfig();
-
-    expect(currentConfig).toEqual({
-      riotApiKey: "abc123",
-      regionalRouting: "americas",
-      platformRouting: "br1",
-      language: "en_US",
-    });
-  });
-
-  it("checkConfig should return true if ZhonyaClient is set and not empty", () => {
-    jest.mock("../", () => ({
-      ZhonyaClient: new ZhonyaClientClass(),
-    }));
-
-    ZhonyaClient.init({
-      riotApiKey: "123456",
+  it("should create multiple client instances with different configurations", () => {
+    const client1 = ZhonyaClient.init({
+      riotApiKey: "key1",
+      regionalRouting: "europe",
     });
 
-    const isValid = config.checkConfig();
-    expect(isValid).toBe(true);
-  });
+    const client2 = ZhonyaClient.init({
+      riotApiKey: "key2",
+      platformRouting: "euw1",
+    });
 
-  it("checkConfig should return true if ZhonyaClient is set and not empty", async () => {
-    jest.mock("../", () => ({
-      ZhonyaClient: new ZhonyaClientClass(),
-    }));
+    expect(client1.config).toEqual({
+      riotApiKey: "key1",
+      regionalRouting: "europe",
+      platformRouting: DEFAULT_PLATFORM_ROUTING,
+      language: DEFAULT_LANGUAGE,
+    });
 
-    const config = await import("../config");
+    expect(client2.config).toEqual({
+      riotApiKey: "key2",
+      regionalRouting: DEFAULT_REGIONAL_ROUTING,
+      platformRouting: "euw1",
+      language: DEFAULT_LANGUAGE,
+    });
 
-    const result = config.checkConfig();
-    expect(result).toBe(true);
+    // Ensure clients have different config objects (not shared reference)
+    expect(client1.config).not.toBe(client2.config);
   });
 });
