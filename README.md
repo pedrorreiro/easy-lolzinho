@@ -52,7 +52,7 @@ const client = ZhonyaClient.init();
 
 ---
 
-## 📘 Usage examples
+## 📘 Usage Examples
 
 ### 📋 Get all champions (no API key required)
 
@@ -62,25 +62,67 @@ import { ZhonyaClient } from "zhonya";
 (async () => {
   const client = ZhonyaClient.init();
 
-  const champions = await client.getAllChampions();
+  // Using the new champions API
+  const champions = await client.champions.getAll();
   console.log(champions);
+})();
+```
+
+### 📋 Get summoner information (requires API key)
+
+```ts
+import { ZhonyaClient } from "zhonya";
+
+(async () => {
+  const client = ZhonyaClient.init({
+    riotApiKey: "YOUR_RIOT_API_KEY",
+  });
+
+  // Using the summoner API
+  const summoner = await client.summoner.getByName("summoner-name");
+  console.log(summoner);
+})();
+```
+
+### 📋 Get the weekly free rotation (requires API key)
+
+```ts
+import { ZhonyaClient } from "zhonya";
+
+(async () => {
+  const client = ZhonyaClient.init({
+    riotApiKey: "YOUR_RIOT_API_KEY",
+  });
+
+  // Using the free week rotation API
+  const freeWeek = await client.freeWeek.get();
+  console.log(freeWeek);
 })();
 ```
 
 ---
 
-## 🧹 Available methods
+## 🧹 Available APIs
 
-### Methods that **require** an API key:
+### `client.summoner` - Summoner API
 
-- `getSummonerByName(summonerName: string): Promise<SummonerDTO>`
-- `getFreeWeek(): Promise<FreeWeekDto>`
+Methods that **require** an API key:
 
-### Methods that **do not require** an API key:
+- `getByName(summonerName: string): Promise<SummonerDTO>` - Get summoner information by name
 
-- `getAllChampions(): Promise<ChampionsDto>`
+### `client.freeWeek` - Free Week Rotation API
 
-(more methods coming soon...)
+Methods that **require** an API key:
+
+- `get(): Promise<FreeWeekDto>` - Get the weekly free champion rotation
+
+### `client.champions` - Champions API
+
+Methods that **do not require** an API key:
+
+- `getAll(): Promise<ChampionsDto>` - Get all champions
+
+> Note: The old methods (`client.getSummonerByName()`, `client.getFreeWeek()`, `client.getAllChampions()`) still work but are marked as deprecated and will be removed in future versions.
 
 ---
 

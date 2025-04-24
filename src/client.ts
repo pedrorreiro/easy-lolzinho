@@ -1,3 +1,4 @@
+import { ChampionsAPI, FreeWeekAPI, SummonerAPI } from "./api";
 import {
   DEFAULT_LANGUAGE,
   DEFAULT_PLATFORM_ROUTING,
@@ -7,20 +8,51 @@ import {
 import { ZhonyaError } from "./errors/ZhonyaError";
 import { PuuidService } from "./internal/Puuid/puuid.service";
 import { ChampionService } from "./resources/champion/champion.service";
-import { ChampionsDto } from "./resources/champion/types";
 import { FreeWeekService } from "./resources/freeWeek/freeweek.service";
-import { FreeWeekDto } from "./resources/freeWeek/types";
 import { SummonerService } from "./resources/summoner/summoner.service";
-import { SummonerDTO } from "./resources/summoner/types";
 
 /**
  * Main client for the Zhonya
  */
 export class ZhonyaClient {
-  private puuidService: PuuidService;
-  private summonerService: SummonerService;
-  private freeWeekService: FreeWeekService;
-  private championService: ChampionService;
+  /**
+   * API for accessing summoner-related functionalities
+   */
+  public summoner: SummonerAPI;
+
+  /**
+   * API for accessing champion-related functionalities
+   */
+  public champions: ChampionsAPI;
+
+  /**
+   * API for accessing free rotation functionalities
+   */
+  public freeWeek: FreeWeekAPI;
+
+  /**
+   * Internal service for fetching PUUIDs
+   * @internal
+   */
+  public puuidService: PuuidService;
+
+  /**
+   * Internal service for fetching summoner data
+   * @internal
+   */
+  public summonerService: SummonerService;
+
+  /**
+   * Internal service for fetching free week rotation data
+   * @internal
+   */
+  public freeWeekService: FreeWeekService;
+
+  /**
+   * Internal service for fetching champion data
+   * @internal
+   */
+  public championService: ChampionService;
 
   /**
    * Configuration for the Zhonya client
@@ -36,7 +68,7 @@ export class ZhonyaClient {
   /**
    * Initializes the Zhonya client and returns it ready to use
    *
-   * @param riotApiKey - Riot Games API key (optional for some methods like getAllChampions, **required** for methods like getSummonerByName and getFreeWeek)
+   * @param riotApiKey - Riot Games API key (optional for some methods)
    * @param regionalRouting - Regional routing (default: americas)
    * @param platformRouting - Platform routing (default: br1)
    * @param language - Language for data returned (default: en_US)
@@ -56,9 +88,9 @@ export class ZhonyaClient {
    * // Client without API key (limited access)
    * const clientWithoutKey = ZhonyaClient.init();
    * // This will work
-   * const champions = await clientWithoutKey.getAllChampions();
+   * const champions = await clientWithoutKey.champions.getAll();
    * // This will throw an error
-   * const summoner = await clientWithoutKey.getSummonerByName("playerName");
+   * const summoner = await clientWithoutKey.summoner.getByName("playerName");
    * ```
    *
    */
@@ -93,14 +125,18 @@ export class ZhonyaClient {
     this.summonerService = new SummonerService(this.config);
     this.freeWeekService = new FreeWeekService(this.config);
     this.championService = new ChampionService(this.config);
+
+    // Initialize APIs
+    this.summoner = new SummonerAPI(this);
+    this.champions = new ChampionsAPI(this);
+    this.freeWeek = new FreeWeekAPI(this);
   }
 
   /**
    * Checks if the client is initialized
-   * @private
    * @throws {ZhonyaError} - If the client is not initialized
    */
-  private checkInitialized(): void {
+  public checkInitialized(): void {
     if (!this.initialized) {
       throw new ZhonyaError(
         "Zhonya client must be initialized before use. Use Zhonya.init() to create a client."
@@ -110,67 +146,13 @@ export class ZhonyaClient {
 
   /**
    * Checks if the API key was provided, required for some methods
-   * @private
    * @throws {ZhonyaError} - If the API key is missing
    */
-  private checkApiKey(): void {
+  public checkApiKey(): void {
     if (!this.config.riotApiKey) {
       throw new ZhonyaError(
         "Riot API key is required for this method. Initialize the client with a valid API key."
       );
-    }
-  }
-
-  /**
-   * Finds a summoner by name
-   * @param summonerName - Summoner name
-   * @returns Summoner data
-   * @throws {ZhonyaError} - If the client is not initialized or API key is missing
-   * @remarks **This method requires a valid API key to work**
-   */
-  async getSummonerByName(summonerName: string): Promise<SummonerDTO> {
-    this.checkInitialized();
-    this.checkApiKey();
-
-    try {
-      const puuid = await this.puuidService.getByName(summonerName);
-      return await this.summonerService.getByPuuid(puuid);
-    } catch (error) {
-      throw new ZhonyaError(`Error while fetching summoner by name`);
-    }
-  }
-
-  /**
-   * Fetches the free champion rotation of the week
-   * @returns Free champion rotation data
-   * @throws {ZhonyaError} - If the client is not initialized or API key is missing
-   * @remarks **This method requires a valid API key to work**
-   */
-  async getFreeWeek(): Promise<FreeWeekDto> {
-    this.checkInitialized();
-    this.checkApiKey();
-    try {
-      return await this.freeWeekService.getFreeWeekChampions();
-    } catch (error) {
-      throw new ZhonyaError("Error while fetching Free Week champions");
-    }
-  }
-
-  /**
-   * Fetches all champions
-   * @returns Data for all champions
-   * @throws {ZhonyaError} - If the client is not initialized
-   * @remarks **This method does not require an API key to work**
-   */
-  async getAllChampions(): Promise<ChampionsDto> {
-    this.checkInitialized();
-
-    try {
-      return await this.championService.getAllChampions({
-        language: this.config.language,
-      });
-    } catch (error) {
-      throw new ZhonyaError(`Error while fetching all champions`);
     }
   }
 }

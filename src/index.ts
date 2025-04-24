@@ -9,7 +9,7 @@ const client = ZhonyaClient.init();
 
 (async () => {
   try {
-    const champions = await client.getAllChampions();
+    const champions = await client.champions.getAll();
     console.log(champions);
   } catch (error) {
     console.error(error);
