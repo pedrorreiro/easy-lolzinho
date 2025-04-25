@@ -1,16 +1,17 @@
-import { RiotApiError } from "./RiotApiError";
-
 export class ZhonyaError extends Error {
-  public message: string;
-  public riotError?: RiotApiError;
+  public riotError?: Error;
 
-  constructor(message: string, riotError?: RiotApiError) {
-    if (riotError) {
-      message = `${message} - ${riotError.message}`;
+  constructor(message: string, riotError?: Error) {
+    super(message);
+
+    const error = riotError as any;
+
+    if (error && error.response && error.response.data) {
+      this.riotError = error.response.data.status;
+    } else {
+      this.riotError = error;
     }
 
-    super(message);
-    this.message = message;
-    this.riotError = riotError;
+    this.name = "ZhonyaError";
   }
 }

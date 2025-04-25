@@ -1,6 +1,5 @@
 import axios, { AxiosInstance } from "axios";
 import { ZhonyaParams } from "../../config";
-import { RiotApiError } from "../../errors/RiotApiError";
 import { ZhonyaError } from "../../errors/ZhonyaError";
 import { FreeWeekDto, GetFreeWeekResponse } from "./types";
 
@@ -31,12 +30,7 @@ export class FreeWeekService {
 
       return responseData;
     } catch (error) {
-      const riotError = error as RiotApiError;
-
-      throw new ZhonyaError(
-        "Error while fetching Free Week champions",
-        riotError
-      );
+      throw new ZhonyaError("Failed to fetch free week champions", error);
     }
   }
 }

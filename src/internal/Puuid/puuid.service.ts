@@ -1,6 +1,5 @@
 import axios, { AxiosInstance } from "axios";
 import { ZhonyaParams } from "../../config";
-import { RiotApiError } from "../../errors/RiotApiError";
 import { ZhonyaError } from "../../errors/ZhonyaError";
 
 export class PuuidService {
@@ -33,9 +32,7 @@ export class PuuidService {
       );
       return response.data.puuid;
     } catch (error: any) {
-      const riotError = error as RiotApiError;
-
-      throw new ZhonyaError("Error while fetching PUUID", riotError);
+      throw new ZhonyaError("Error while fetching PUUID", error);
     }
   }
 }

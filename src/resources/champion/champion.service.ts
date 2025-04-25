@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { ZhonyaParams } from "../../config";
-import { RiotApiError } from "../../errors/RiotApiError";
+
 import { ZhonyaError } from "../../errors/ZhonyaError";
 import { getLastVersion } from "../../utils";
 import { ChampionsDto } from "./types";
@@ -40,9 +40,7 @@ export class ChampionService {
 
       return championData;
     } catch (error) {
-      const riotError = error as RiotApiError;
-
-      throw new ZhonyaError("Error fetching champions data", riotError);
+      throw new ZhonyaError("Error fetching champions data");
     }
   }
 

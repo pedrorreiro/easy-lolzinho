@@ -33,7 +33,12 @@ export class SummonerAPI {
       const puuid = await this.puuidService.getByName(summonerName);
       return await this.summonerService.getByPuuid(puuid);
     } catch (error) {
-      throw new ZhonyaError(`Error while fetching summoner by name`);
+      const zhonyaError = error as ZhonyaError;
+
+      throw new ZhonyaError(
+        `Error while fetching summoner by name`,
+        zhonyaError.riotError
+      );
     }
   }
 }

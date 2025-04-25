@@ -26,10 +26,15 @@ export class ChampionAPI {
 
     try {
       return await this.championService.getAllChampions({
-        language: this.context.config.language || "",
+        language: this.context.config.language,
       });
     } catch (error) {
-      throw new ZhonyaError(`Error while fetching all champions`);
+      const zhonyaError = error as ZhonyaError;
+
+      throw new ZhonyaError(
+        `Error while fetching all champions`,
+        zhonyaError.riotError
+      );
     }
   }
 }

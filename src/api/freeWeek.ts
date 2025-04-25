@@ -18,17 +18,21 @@ export class FreeWeekAPI {
   /**
    * Get the free champion rotation for the week
    * @returns Free champion rotation data
-   * @throws {ZhonyaError} - If the client is not initialized or if the API key is missing
+   * @throws {ZhonyaError} - If there's an error with the client or API request
    * @remarks **This method requires a valid API key to work**
    */
   async get(): Promise<FreeWeekDto> {
     this.context.checkInitialized();
     this.context.checkApiKey();
-
     try {
       return await this.freeWeekService.getFreeWeekChampions();
     } catch (error) {
-      throw new ZhonyaError("Error while fetching free week champions");
+      const zhonyaError = error as ZhonyaError;
+
+      throw new ZhonyaError(
+        "Error while fetching freeweek",
+        zhonyaError.riotError
+      );
     }
   }
 }
