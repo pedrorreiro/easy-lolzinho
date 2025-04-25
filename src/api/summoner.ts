@@ -1,15 +1,21 @@
-import { ZhonyaClient } from "../client";
+import { IZhonyaContext } from "../client";
 import { ZhonyaError } from "../errors/ZhonyaError";
+import { PuuidService } from "../internal/Puuid/puuid.service";
+import { SummonerService } from "../resources/summoner/summoner.service";
 import { SummonerDTO } from "../resources/summoner/types";
 
 /**
  * Class for accessing summoner-related functionalities
  */
 export class SummonerAPI {
-  private client: ZhonyaClient;
+  private puuidService: PuuidService;
+  private summonerService: SummonerService;
+  private context: IZhonyaContext;
 
-  constructor(client: ZhonyaClient) {
-    this.client = client;
+  constructor(context: IZhonyaContext) {
+    this.context = context;
+    this.puuidService = new PuuidService(context.config);
+    this.summonerService = new SummonerService(context.config);
   }
 
   /**
@@ -20,12 +26,12 @@ export class SummonerAPI {
    * @remarks **This method requires a valid API key to work**
    */
   async getByName(summonerName: string): Promise<SummonerDTO> {
-    this.client.checkInitialized();
-    this.client.checkApiKey();
+    this.context.checkInitialized();
+    this.context.checkApiKey();
 
     try {
-      const puuid = await this.client.puuidService.getByName(summonerName);
-      return await this.client.summonerService.getByPuuid(puuid);
+      const puuid = await this.puuidService.getByName(summonerName);
+      return await this.summonerService.getByPuuid(puuid);
     } catch (error) {
       throw new ZhonyaError(`Error while fetching summoner by name`);
     }

@@ -21,9 +21,6 @@
     "start": "npm run build && node dist/index.js",
     "dev": "ts-node-dev 'src/index.ts'",
     "publish:dev": "./bin/publish-dev.sh",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
     "lint": "eslint . --ext .ts",
     "prettier": "prettier --write .",
     "prepare": "npm run build"

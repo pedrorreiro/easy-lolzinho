@@ -1,15 +1,18 @@
-import { ZhonyaClient } from "../client";
+import { IZhonyaContext } from "../client";
 import { ZhonyaError } from "../errors/ZhonyaError";
+import { ChampionService } from "../resources/champion/champion.service";
 import { ChampionsDto } from "../resources/champion/types";
 
 /**
  * Class for accessing champion-related functionalities
  */
-export class ChampionsAPI {
-  private client: ZhonyaClient;
+export class ChampionAPI {
+  private championService: ChampionService;
+  private context: IZhonyaContext;
 
-  constructor(client: ZhonyaClient) {
-    this.client = client;
+  constructor(context: IZhonyaContext) {
+    this.context = context;
+    this.championService = new ChampionService(context.config);
   }
 
   /**
@@ -19,8 +22,12 @@ export class ChampionsAPI {
    * @remarks **This method does not require an API key to work**
    */
   async getAll(): Promise<ChampionsDto> {
+    this.context.checkInitialized();
+
     try {
-      return await this.client.championService.getAllChampions();
+      return await this.championService.getAllChampions({
+        language: this.context.config.language || "",
+      });
     } catch (error) {
       throw new ZhonyaError(`Error while fetching all champions`);
     }

@@ -1,15 +1,18 @@
-import { ZhonyaClient } from "../client";
+import { IZhonyaContext } from "../client";
 import { ZhonyaError } from "../errors/ZhonyaError";
+import { FreeWeekService } from "../resources/freeWeek/freeweek.service";
 import { FreeWeekDto } from "../resources/freeWeek/types";
 
 /**
  * Class for accessing free champion rotation functionalities
  */
 export class FreeWeekAPI {
-  private client: ZhonyaClient;
+  private freeWeekService: FreeWeekService;
+  private context: IZhonyaContext;
 
-  constructor(client: ZhonyaClient) {
-    this.client = client;
+  constructor(context: IZhonyaContext) {
+    this.context = context;
+    this.freeWeekService = new FreeWeekService(context.config);
   }
 
   /**
@@ -19,8 +22,11 @@ export class FreeWeekAPI {
    * @remarks **This method requires a valid API key to work**
    */
   async get(): Promise<FreeWeekDto> {
+    this.context.checkInitialized();
+    this.context.checkApiKey();
+
     try {
-      return await this.client.freeWeekService.getFreeWeekChampions();
+      return await this.freeWeekService.getFreeWeekChampions();
     } catch (error) {
       throw new ZhonyaError("Error while fetching free week champions");
     }

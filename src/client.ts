@@ -1,4 +1,4 @@
-import { ChampionsAPI, FreeWeekAPI, SummonerAPI } from "./api";
+import { ChampionAPI, FreeWeekAPI, SummonerAPI } from "./api";
 import {
   DEFAULT_LANGUAGE,
   DEFAULT_PLATFORM_ROUTING,
@@ -6,24 +6,67 @@ import {
   ZhonyaParams,
 } from "./config";
 import { ZhonyaError } from "./errors/ZhonyaError";
-import { PuuidService } from "./internal/Puuid/puuid.service";
-import { ChampionService } from "./resources/champion/champion.service";
-import { FreeWeekService } from "./resources/freeWeek/freeweek.service";
-import { SummonerService } from "./resources/summoner/summoner.service";
+
+/**
+ * Contexto interno compartilhado entre o cliente e as APIs
+ * @internal
+ */
+export interface IZhonyaContext {
+  config: ZhonyaParams;
+  checkInitialized(): void;
+  checkApiKey(): void;
+}
+
+/**
+ * Implementação do contexto interno
+ * @private
+ */
+class ZhonyaContext implements IZhonyaContext {
+  private _config: ZhonyaParams;
+  private _initialized: boolean = false;
+
+  constructor(config: ZhonyaParams) {
+    this._config = { ...config };
+  }
+
+  get config(): ZhonyaParams {
+    return this._config;
+  }
+
+  set initialized(value: boolean) {
+    this._initialized = value;
+  }
+
+  checkInitialized(): void {
+    if (!this._initialized) {
+      throw new ZhonyaError(
+        "Zhonya client must be initialized before use. Use Zhonya.init() to create a client."
+      );
+    }
+  }
+
+  checkApiKey(): void {
+    if (!this._config.riotApiKey) {
+      throw new ZhonyaError(
+        "Riot API key is required for this method. Initialize the client with a valid API key."
+      );
+    }
+  }
+}
 
 /**
  * Main client for the Zhonya
  */
 export class ZhonyaClient {
   /**
+   * API for accessing champion-related functionalities
+   */
+  public champion: ChampionAPI;
+
+  /**
    * API for accessing summoner-related functionalities
    */
   public summoner: SummonerAPI;
-
-  /**
-   * API for accessing champion-related functionalities
-   */
-  public champions: ChampionsAPI;
 
   /**
    * API for accessing free rotation functionalities
@@ -31,39 +74,10 @@ export class ZhonyaClient {
   public freeWeek: FreeWeekAPI;
 
   /**
-   * Internal service for fetching PUUIDs
-   * @internal
-   */
-  public puuidService: PuuidService;
-
-  /**
-   * Internal service for fetching summoner data
-   * @internal
-   */
-  public summonerService: SummonerService;
-
-  /**
-   * Internal service for fetching free week rotation data
-   * @internal
-   */
-  public freeWeekService: FreeWeekService;
-
-  /**
-   * Internal service for fetching champion data
-   * @internal
-   */
-  public championService: ChampionService;
-
-  /**
-   * Configuration for the Zhonya client
-   */
-  public config: ZhonyaParams;
-
-  /**
-   * Flag to indicate if the client is properly initialized
+   * Contexto interno compartilhado
    * @private
    */
-  private initialized: boolean = false;
+  private context: ZhonyaContext;
 
   /**
    * Initializes the Zhonya client and returns it ready to use
@@ -88,7 +102,7 @@ export class ZhonyaClient {
    * // Client without API key (limited access)
    * const clientWithoutKey = ZhonyaClient.init();
    * // This will work
-   * const champions = await clientWithoutKey.champions.getAll();
+   * const champions = await clientWithoutKey.champion.getAll();
    * // This will throw an error
    * const summoner = await clientWithoutKey.summoner.getByName("playerName");
    * ```
@@ -108,8 +122,7 @@ export class ZhonyaClient {
     };
 
     const client = new ZhonyaClient(config);
-
-    client.initialized = true;
+    (client.context as ZhonyaContext).initialized = true;
 
     return client;
   }
@@ -119,40 +132,11 @@ export class ZhonyaClient {
    * Use Zhonya.init() instead
    */
   private constructor(config: ZhonyaParams) {
-    this.config = { ...config };
+    this.context = new ZhonyaContext(config);
 
-    this.puuidService = new PuuidService(this.config);
-    this.summonerService = new SummonerService(this.config);
-    this.freeWeekService = new FreeWeekService(this.config);
-    this.championService = new ChampionService(this.config);
-
-    // Initialize APIs
-    this.summoner = new SummonerAPI(this);
-    this.champions = new ChampionsAPI(this);
-    this.freeWeek = new FreeWeekAPI(this);
-  }
-
-  /**
-   * Checks if the client is initialized
-   * @throws {ZhonyaError} - If the client is not initialized
-   */
-  public checkInitialized(): void {
-    if (!this.initialized) {
-      throw new ZhonyaError(
-        "Zhonya client must be initialized before use. Use Zhonya.init() to create a client."
-      );
-    }
-  }
-
-  /**
-   * Checks if the API key was provided, required for some methods
-   * @throws {ZhonyaError} - If the API key is missing
-   */
-  public checkApiKey(): void {
-    if (!this.config.riotApiKey) {
-      throw new ZhonyaError(
-        "Riot API key is required for this method. Initialize the client with a valid API key."
-      );
-    }
+    // Initialize APIs passando o contexto compartilhado
+    this.champion = new ChampionAPI(this.context);
+    this.summoner = new SummonerAPI(this.context);
+    this.freeWeek = new FreeWeekAPI(this.context);
   }
 }
